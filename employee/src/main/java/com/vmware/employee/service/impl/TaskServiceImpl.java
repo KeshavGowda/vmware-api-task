@@ -1,9 +1,15 @@
 package com.vmware.employee.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.vmware.employee.dao.ITaskDao;
 import com.vmware.employee.error.TaskException;
@@ -13,8 +19,34 @@ import com.vmware.employee.service.ITaskService;
 @Service
 public class TaskServiceImpl implements ITaskService {
 	
+	private static final Logger loggger = LoggerFactory.getLogger(TaskServiceImpl.class);
+	
 	@Autowired
 	private ITaskDao taskDao;
+	
+	@Value("${file.upload-dir}")
+	private String fileUploadDir;
+	
+	/**
+	 * Copies the given input file locally for later processing.
+	 * 
+	 * @param inputFile User uploaded input file.
+	 * @return File path of the copied file.
+	 * @throws IOException 
+	 */
+	@Override
+	public String saveInputFile(final MultipartFile inputFile) {
+		final String fileName = fileUploadDir + inputFile.getOriginalFilename();
+		File file  = new File(fileName);
+		try {
+			inputFile.transferTo(file);
+		} catch (IOException e) {
+			String message = String.format("Error when uploading input file", e.getMessage());
+			loggger.error(message, e);
+			throw new TaskException(message);
+		} 
+		return file.getAbsolutePath();
+	}
 
 	/**
 	 * Creates a new entry for a task in the database and returns the unique id generated.

@@ -1,8 +1,12 @@
 package com.vmware.employee.service.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.vmware.employee.dao.IEmployeeDao;
 import com.vmware.employee.models.Employee;
@@ -35,12 +38,16 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	 * @param taskId Task id to be used to process this request.
 	 * @param File file containing Employee info.
 	 */
+	/**
+	 * @param inputFile
+	 * @return
+	 */
 	@Async
 	@Override
-	public void saveEmployees(final long taskId, final MultipartFile file) {
+	public void saveEmployees(final long taskId, final String filePath) {
 		loggger.info(String.format("Processing task id %d", taskId));
 		taskService.updateTaskStatus(taskId, "In Progress");
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))) {
 			final List<Employee> employees = new ArrayList<>();
 			String row;
 			while ((row = reader.readLine()) != null) {
@@ -60,6 +67,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			taskService.updateTaskStatus(taskId, "Failed");
 			String message = String.format("Error when processing task id : %d. Cause: %s", taskId, e.getMessage());
 			loggger.error(message, e);
+		} finally {
+			try {
+				Files.deleteIfExists(Paths.get(filePath));
+			} catch (IOException e) {
+				loggger.error(String.format("Error deleting file %s", filePath), e);
+			}
 		}
 	}
 

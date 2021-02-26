@@ -39,9 +39,10 @@ public class EmployeeController {
 	 */
 	@PostMapping(value = "/employee")
 	public ResponseEntity<TaskResponse> saveEmployees(@RequestParam(name = "action") final String action, @RequestParam(name = "file") final MultipartFile file) {
+		final String uploadedFilePath = taskService.saveInputFile(file);
 		final long uniqueTaskId = taskService.getUniqueTaskId();
 		final TaskResponse taskResponse = new TaskResponse(uniqueTaskId, STATUS_CHECK_URL + uniqueTaskId);
-		employeeService.saveEmployees(uniqueTaskId, file);
+		employeeService.saveEmployees(uniqueTaskId, uploadedFilePath);
 		return new ResponseEntity<>(taskResponse, HttpStatus.OK);
 	}
 	
