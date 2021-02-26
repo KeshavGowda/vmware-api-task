@@ -29,6 +29,11 @@ class EmployeeApplicationTests {
 		
 	}
 	
+	/**
+	 * Tests a scenario where employee information is successfully saved into database. 
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	void testBulkEmployeeLoad() throws Exception {
 		Path inputFile = Paths.get("src/test/resources/employees.txt");
@@ -45,6 +50,11 @@ class EmployeeApplicationTests {
 		assertThat(response2).isEqualTo("Success");
 	}
 	
+	/**
+	 * Tests a scenario where the request fails due to incorrect format in input file. 
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	void testIncorrectFileFormat() throws Exception {
 		Path inputFile = Paths.get("src/test/resources/employees2.txt");
@@ -61,6 +71,11 @@ class EmployeeApplicationTests {
 		assertThat(response2).isEqualTo("Failed");
 	}
 	
+	/**
+	 * Tests a scenario when status of the incorrect task id is requested. 
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	void testIncorrectTaskId() throws Exception {
 		mockvc.perform(MockMvcRequestBuilders.get("/api/getStatus/100")).andExpect(status().isBadRequest());	

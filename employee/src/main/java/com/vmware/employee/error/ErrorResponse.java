@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * Custom error response class.
+ */
 public class ErrorResponse {
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")

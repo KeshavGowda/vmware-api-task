@@ -1,5 +1,8 @@
 package com.vmware.employee.models;
 
+/**
+ * Task response object.
+ */
 public class TaskResponse {
 	
 	private long taskId;

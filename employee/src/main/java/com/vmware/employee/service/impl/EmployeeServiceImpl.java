@@ -29,6 +29,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Autowired
 	private ITaskService taskService;
 
+	/**
+	 * Saves the employee information in the database. This method takes in a task id and an input file containing Employee info.
+	 * This method asynchronously processes each request.
+	 * @param taskId Task id to be used to process this request.
+	 * @param File file containing Employee info.
+	 */
 	@Async
 	@Override
 	public void saveEmployees(final long taskId, final MultipartFile file) {
