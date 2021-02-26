@@ -19,7 +19,7 @@ The application has 2 endpoints-
 	* In the parm section, add "action" in key field and "upload" in value field. 
 	* In the body section, select form-data. Then enter "file" as key and in the value field select the desired input file.
 	* Submit the request. Each request is assigned a unique task id. This request will be processed asynchronously in the backend and processed result will be saved in the database. 
-	* After submitting the request we get a response which includes a taskid and url to check the status of the request as shown below
+	* After submitting the request we get a response object containing a taskid and url to check the status of the request. <br />
 	  {
 		  "taskId": 4,
 		  "statusCheckUrl": "/api/getStatus/4"
