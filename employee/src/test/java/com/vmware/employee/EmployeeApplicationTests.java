@@ -61,7 +61,7 @@ class EmployeeApplicationTests {
 	@Test
 	void testIncorrectFileFormat() throws Exception {
 		Path inputFile = Paths.get("src/test/resources/employees2.txt");
-		MockMultipartFile multipartFile = new MockMultipartFile("file", "employees", MediaType.APPLICATION_OCTET_STREAM.toString(), Files.readAllBytes(inputFile));
+		MockMultipartFile multipartFile = new MockMultipartFile("file", "employees2", MediaType.APPLICATION_OCTET_STREAM.toString(), Files.readAllBytes(inputFile));
 		final MvcResult result = mockvc.perform(MockMvcRequestBuilders.multipart("/api/employee")
 				.file(multipartFile)
 				.queryParam("action", "upload"))
@@ -83,7 +83,7 @@ class EmployeeApplicationTests {
 	@Test
 	void testBulkEmployeeLoad() throws Exception {
 		Path inputFile = Paths.get("src/test/resources/employees3.txt");
-		MockMultipartFile multipartFile = new MockMultipartFile("file", "employees", MediaType.APPLICATION_OCTET_STREAM.toString(), Files.readAllBytes(inputFile));
+		MockMultipartFile multipartFile = new MockMultipartFile("file", "employees3", MediaType.APPLICATION_OCTET_STREAM.toString(), Files.readAllBytes(inputFile));
 		final MvcResult result = mockvc.perform(MockMvcRequestBuilders.multipart("/api/employee")
 				.file(multipartFile)
 				.queryParam("action", "upload"))
