@@ -5,7 +5,8 @@
 - Maven
 
 ## Steps to run the project
-- Clone the repository and import the employee project into an eclipse workspace.
+- Clone the repository and run `mvn clean install` to resolve all the dependencies.
+- Import the employee project into an eclipse workspace.
 - Run the main class EmployeeApplication.java.
 - To run the test cases, run the file EmployeeApplicationTests.java as junit test.
 
